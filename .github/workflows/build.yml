@@ -1,0 +1,25 @@
+name: Everything.
+
+on:
+  push:
+    branches: master
+  pull_request:
+    branches: master
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Build image for... building
+        run: docker build -t rgbbuild < Dockerfile
+      - name: Build everything
+        run: docker run -it -v $PWD/dist:/dist rgbbuild
+      - name: Upload artifact
+        if: ${{ github.ref_name == 'master' }}
+        uses: actions/upload-artifact@v4.3.0
+        with:
+          name: rgbds
+          path: |
+            dist/
