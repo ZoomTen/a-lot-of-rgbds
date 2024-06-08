@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
       - name: Build image for... building
-        run: docker build -t rgbbuild
+        run: docker build -t rgbbuild .
       - name: Build everything
         run: docker run -it -v $PWD/dist:/dist rgbbuild
       - name: Upload artifact
