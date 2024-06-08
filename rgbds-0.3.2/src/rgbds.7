@@ -1,0 +1,51 @@
+.\" Copyright © 2010 Anthony J. Bentley <anthony@anjbe.name>
+.\"
+.\" Permission to use, copy, modify, and distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED “AS IS” AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd April 17, 2017
+.Dt RGBDS 7
+.Os RGBDS Manual
+.Sh NAME
+.Nm rgbds
+.Nd Rednex Game Boy Development System
+.Sh EXAMPLES
+To get a working ROM image from a single assembly source file:
+.Pp
+.D1 $ rgbasm \-o bar.o foo.asm
+.D1 $ rgblink \-o baz.gb bar.o
+.D1 $ rgbfix \-v \-p 0 baz.gb
+.Sh SEE ALSO
+.Xr rgbasm 1 ,
+.Xr rgbfix 1 ,
+.Xr rgblink 1 ,
+.Xr rgbds 5 ,
+.Xr gbz80 7
+.Sh HISTORY
+.Bl -ohang
+.It
+1997, Carsten S\(/orensen (AKA SurfSmurf) writes ASMotor as a general-purpose
+assembler/linker system for DOS/Win32.
+.It
+1999, Justin Lloyd (AKA Otaku no Zoku) adapts ASMotor to read and produce GBZ80
+assembly/machine code, and releases this version as RGBDS.
+.It
+2009, Vegard Nossum adapts the code to be more UNIX-like and releases this
+version as rgbds-linux on GitHub.
+.It
+2010, Anthony J. Bentley forks that repository. The fork becomes the reference
+implementation of rgbds.
+.It
+2017, Bentley's repository is moved to a neutral name.
+It is now maintained by a number of contributors at
+.Lk https://github.com/rednex/rgbds .
+.El

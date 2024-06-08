@@ -1,0 +1,11 @@
+rgbasm
+rgblink
+rgbfix
+rgbgfx
+*.o
+*.exe
+.checkpatch-camelcase.*
+
+test/pokecrystal
+test/pokered
+test/ucity

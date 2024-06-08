@@ -1,0 +1,15 @@
+/rgbasm
+/rgblink
+/rgbfix
+/rgbgfx
+/rgbshim.sh
+/coverage/
+*.o
+*.exe
+*.dll
+*.gcno
+*.gcda
+*.gcov
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake

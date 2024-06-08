@@ -1,0 +1,116 @@
+.\"
+.\" This file is part of RGBDS.
+.\"
+.\" Copyright (c) 2010-2018, Anthony J. Bentley and RGBDS contributors.
+.\"
+.\" SPDX-License-Identifier: MIT
+.\"
+.Dd January 26, 2018
+.Dt RGBLINK 1
+.Os RGBDS Manual
+.Sh NAME
+.Nm rgblink
+.Nd Game Boy linker
+.Sh SYNOPSIS
+.Nm rgblink
+.Op Fl dtVw
+.Op Fl m Ar mapfile
+.Op Fl n Ar symfile
+.Op Fl O Ar overlayfile
+.Op Fl o Ar outfile
+.Op Fl p Ar pad_value
+.Op Fl s Ar symbol
+.Op Fl l Ar linkerscript
+.Ar
+.Sh DESCRIPTION
+The
+.Nm
+program links objects created by
+.Xr rgbasm 1
+into a single Game Boy ROM file.
+.Pp
+By default, ROM0 sections created by the assembler are placed in the 16KiB
+bank 0, and ROMX sections are placed in any bank except bank 0.
+If your ROM will only be 32KiB, you can use the
+.Fl t
+option to override this.
+.Pp
+Similarly, WRAM0 sections are placed in the first 4KiB of WRAM bank 0 and WRAMX
+sections are placed in any bank except bank 0.
+If your ROM doesn't use banked WRAM you can use option
+.Fl w
+option to override this.
+.Pp
+Also, if your ROM is designed for DMG, you can make sure that you don't use any
+prohibited section by using the option
+.Fl d ,
+which implies
+.Fl w
+but also prohibits the use of VRAM bank 1.
+.Pp
+The arguments are as follows:
+.Bl -tag -width Ds
+.It Fl m Ar mapfile
+Write a mapfile to the given filename.
+.It Fl n Ar symfile
+Write a symbol file to the given filename.
+.It Fl O Ar overlayfile
+The ROM image to overlay sections over.
+When an overlay ROM is provided, all sections must be fixed.
+This may be used to patch an existing binary.
+.It Fl o Ar outfile
+Write ROM image to the given filename.
+.It Fl p Ar pad_value
+When padding an image, pad with this value.
+The default is 0x00.
+.It Fl s Ar symbol
+???
+.It Fl w
+Expand the WRAM0 section size from 4KiB to the full 8KiB assigned to WRAM and
+prohibit the use of WRAMX sections.
+.It Fl d
+Enable DMG mode.
+Prohibit the use of sections that doesn't exist on a DMG, such as WRAMX and VRAM
+bank 1.
+This option automatically enables
+.Fl w .
+.It Fl t
+Expand the ROM0 section size from 16KiB to the full 32KiB assigned to ROM and
+prohibit the use of ROMX sections.
+Useful for ROMs that fit in 32 KiB.
+.It Fl l Ar linkerscript
+Specify a linkerscript file that tells the linker how sections must be placed in
+the ROM.
+This file has priority over the attributes assigned in the source code, but they
+have to be consistent.
+See
+.Xr rgblink 5
+for more information about its format.
+.It Fl V
+Print the version of the program and exit.
+.El
+.Sh EXAMPLES
+All you need for a basic ROM is an object file, which can be made into a ROM
+image like so:
+.Pp
+.D1 $ rgblink -o bar.gb foo.o
+.Pp
+The resulting bar.gb will not have correct checksums
+.Pq unless you put them in the assembly source .
+You should use
+.Xr rgbfix 1
+to fix these so that the program will actually run in a Game Boy:
+.Pp
+.D1 $ rgbfix -v bar.gb
+.Sh SEE ALSO
+.Xr rgbasm 1 ,
+.Xr rgblink 5 ,
+.Xr rgbfix 1 ,
+.Xr rgbds 5 ,
+.Xr rgbds 7
+.Sh HISTORY
+.Nm
+was originally written by Carsten S\(/orensen as part of the ASMotor package,
+and was later packaged in RGBDS by Justin Lloyd. It is now maintained by a
+number of contributors at
+.Lk https://github.com/rednex/rgbds .

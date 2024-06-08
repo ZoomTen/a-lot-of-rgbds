@@ -1,0 +1,8 @@
+rgbasm
+rgblink
+rgbfix
+rgbgfx
+*.o
+*.exe
+*.html
+.checkpatch-camelcase.*

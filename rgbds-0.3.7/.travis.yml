@@ -1,0 +1,15 @@
+language: c
+sudo: required
+install:
+  - ./.travis-deps.sh
+  - make
+  - sudo make install
+os:
+  - linux
+compiler:
+  - clang
+  - gcc
+script:
+  - ./.travis-checkpatch.sh
+  - cd test
+  - ./run-tests.sh

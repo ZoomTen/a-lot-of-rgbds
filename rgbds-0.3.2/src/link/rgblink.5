@@ -1,0 +1,102 @@
+.\" Copyright (C) 2017 Antonio Nino Diaz <antonio_nd@outlook.com>
+.\"
+.\" Permission to use, copy, modify, and distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED “AS IS” AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd April 17, 2017
+.Dt RGBLINK 5
+.Os RGBDS Manual
+.Sh NAME
+.Nm rgblink
+.Nd linkerscript file format
+.Sh DESCRIPTION
+The linkerscript is an external file that allows the user to specify the
+order of sections without the need for doing so before assembling each object
+file.
+.Pp
+The placement of sections specified in the linkerscript is done before the
+sections whose placement is defined in the source code.
+.Pp
+A linkerscript consists on a series of banks followed by a list of sections
+and, optionally, commands.
+They can be lowercase or uppercase, it is ignored.
+Any line can contain a comment starting with
+.Ql \&;
+that ends at the end of the line:
+.Pp
+.Bd -literal -offset indent
+ROMX $F ; This is a comment
+  "Functions to read array"
+  ALIGN 8
+  "Array aligned to 256 bytes"
+
+WRAMX 2
+  "Some variables"
+.Ed
+.Pp
+Numbers can be in decimal or hexadecimal format (the prefix is
+.Ql $ ) .
+It is an error if any bank or command is found before setting a bank.
+.Pp
+Files can be included by using the
+.Ar INCLUDE
+keyword followed by a string with the path of the file that has to be included.
+.Pp
+The possible bank types are:
+.Sy ROM0 , ROMX , VRAM , WRAM0 , WRAMX , OAM
+and
+.Sy HRAM .
+Types
+.Sy ROMX , VRAM , WRAMX
+and
+.Sy SRAM
+are banked, which means that it is needed to specify a bank after the type.
+.Pp
+When a new bank statement is found, sections found after it will be placed
+right from the beginning of that bank.
+If the linkerscript switches to a different bank and then it comes back to the
+previous one it will continue from the last address that was used.
+.Pp
+The only two commands are
+.Ar ORG
+and
+.Ar ALIGN :
+.Bl -bullet
+.It
+.Ar ORG
+sets the address in which new sections will be placed.
+It can not be lower than the current address.
+.It
+.Ar ALIGN
+will increase the address until it is aligned to the specified boundary (it
+tries to set to 0 the number of bits specified after the command:
+.Sy ALIGN 8
+will align to $100).
+.El
+.Pp
+Note: The bank, alignment, address and type of sections can be specified both
+in the source code and in the linkerscript.
+For a section to be able to be placed with the linkerscript the bank must be
+left unassigned in the source code or be the same as the one specified in the
+linkerscript. The address and alignment musn't be set.
+.Sh SEE ALSO
+.Xr rgbasm 1 ,
+.Xr rgblink 1 ,
+.Xr rgbfix 1 ,
+.Xr rgbds 5 ,
+.Xr rgbds 7
+.Sh HISTORY
+.Nm
+was originally written by Carsten S\(/orensen as part of the ASMotor package,
+and was later packaged in RGBDS by Justin Lloyd. It is now maintained by a
+number of contributors at
+.Lk https://github.com/rednex/rgbds .
