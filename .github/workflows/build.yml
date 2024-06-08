@@ -15,7 +15,7 @@ jobs:
       - name: Build image for... building
         run: docker build -t rgbbuild .
       - name: Build everything
-        run: docker run -it -v $PWD/dist:/dist rgbbuild
+        run: docker run --rm -t -v $PWD/dist:/dist rgbbuild
       - name: Upload artifact
         if: ${{ github.ref_name == 'master' }}
         uses: actions/upload-artifact@v4.3.0
