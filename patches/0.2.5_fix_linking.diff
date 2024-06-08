@@ -1,0 +1,13 @@
+diff --git a/rgbds-0.2.5/Makefile b/rgbds-0.2.5/Makefile
+index 5f3be4a..6db6295 100644
+--- a/rgbds-0.2.5/Makefile
++++ b/rgbds-0.2.5/Makefile
+@@ -81,7 +81,7 @@ rgbfix: ${rgbfix_obj}
+ 	$Q${CC} ${REALCFLAGS} -o $@ ${rgbfix_obj}
+ 
+ rgbgfx: ${rgbgfx_obj}
+-	$Q${CC} ${REALCFLAGS} -o $@ ${rgbgfx_obj} `${PKG_CONFIG} --libs libpng`
++	$Q${CC} ${REALCFLAGS} -o $@ ${rgbgfx_obj} `${PKG_CONFIG} --libs libpng zlib`
+ 
+ .y.c:
+ 	$Q${YACC} -d ${YFLAGS} -o $@ $<

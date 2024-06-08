@@ -1,0 +1,26 @@
+diff --git a/rgbds-0.3.4/include/gfx/main.h b/rgbds-0.3.4/include/gfx/main.h
+index 30b5503..401eea0 100644
+--- a/rgbds-0.3.4/include/gfx/main.h
++++ b/rgbds-0.3.4/include/gfx/main.h
+@@ -67,7 +67,7 @@ struct Tilemap {
+ 	int size;
+ };
+ 
+-int depth, colors;
++extern int depth, colors;
+ 
+ #include "gfx/makepng.h"
+ #include "gfx/gb.h"
+diff --git a/rgbds-0.3.4/src/gfx/main.c b/rgbds-0.3.4/src/gfx/main.c
+index 987a2cc..64e7abe 100644
+--- a/rgbds-0.3.4/src/gfx/main.c
++++ b/rgbds-0.3.4/src/gfx/main.c
+@@ -22,6 +22,8 @@
+ 
+ #include "gfx/main.h"
+ 
++int depth, colors;
++
+ static void print_usage(void)
+ {
+ 	printf(

@@ -1,0 +1,17 @@
+diff --git a/rgbds-0.4.0/Makefile b/rgbds-0.4.0/Makefile
+index e664d6f..ae5fab4 100644
+--- a/rgbds-0.4.0/Makefile
++++ b/rgbds-0.4.0/Makefile
+@@ -23,9 +23,9 @@ CHECKPATCH	:= ../linux/scripts/checkpatch.pl
+ # Other variables
+ 
+ PKG_CONFIG	:= pkg-config
+-PNGCFLAGS	:= `${PKG_CONFIG} --cflags libpng`
+-PNGLDFLAGS	:= `${PKG_CONFIG} --libs-only-L libpng`
+-PNGLDLIBS	:= `${PKG_CONFIG} --libs-only-l libpng`
++PNGCFLAGS	:= `${PKG_CONFIG} --cflags libpng zlib`
++PNGLDFLAGS	:= `${PKG_CONFIG} --libs-only-L libpng zlib`
++PNGLDLIBS	:= `${PKG_CONFIG} --libs-only-l libpng zlib`
+ 
+ VERSION_STRING	:= `git describe --tags --dirty --always 2>/dev/null`
+ 
