@@ -1,19 +1,12 @@
-FROM alpine:latest
+FROM muslcc/x86_64:x86_64-linux-musl
 
 RUN apk update && \
     apk add \
         make \
-        gcc \
-        libc-dev \
         m4 \
         patch \
         pkgconfig \
-        bash \
-        g++
-
-ENV CFLAGS="-static -D_GNU_SOURCE -D__MUSL__"
-ENV CXXFLAGS="-static -D_GNU_SOURCE -D__MUSL__"
-ENV CPPFLAGS="-static -D_GNU_SOURCE -D__MUSL__"
+        bash
 
 RUN mkdir -p /tools
 
@@ -30,6 +23,15 @@ RUN cd /tools && \
     tar xvf zlib-1.2.10.tar.gz && \
     tar xvf libpng-1.6.28.tar.gz && \
     tar xvf flex-2.6.3.tar.gz
+
+RUN \
+    echo -e '#!/bin/sh\ngcc -std=c99 ${1+"$@"}' > /usr/bin/c99 && \
+    chmod +x /usr/bin/c99
+
+ENV CFLAGS="-static -D_GNU_SOURCE -L/usr/local/lib/ -I/usr/local/include/ "
+ENV CXXFLAGS="-static -D_GNU_SOURCE -L/usr/local/lib/ -I/usr/local/include/ "
+ENV CPPFLAGS="-static -D_GNU_SOURCE -L/usr/local/lib/ -I/usr/local/include/ "
+ENV PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
 
 COPY . /work
 WORKDIR /work

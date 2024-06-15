@@ -1,0 +1,44 @@
+diff --git a/rgbds-0.0.1/include/asm/lexer.h b/rgbds-0.0.1/include/asm/lexer.h
+index 27fe475..42b1972 100644
+--- a/rgbds-0.0.1/include/asm/lexer.h
++++ b/rgbds-0.0.1/include/asm/lexer.h
+@@ -56,9 +56,4 @@ extern void yyunputbytes(ULONG count);
+ 
+ extern YY_BUFFER_STATE pCurrentBuffer;
+ 
+-#ifdef __GNUC__
+-extern void strupr(char *s);
+-extern void strlwr(char *s);
+-#endif
+-
+ #endif
+diff --git a/rgbds-0.0.1/src/asm/lexer.c b/rgbds-0.0.1/src/asm/lexer.c
+index ead1ee4..88a0bd3 100644
+--- a/rgbds-0.0.1/src/asm/lexer.c
++++ b/rgbds-0.0.1/src/asm/lexer.c
+@@ -39,25 +39,7 @@ enum eLexerState lexerstate = LEX_STATE_NORMAL;
+ 
+ #define AtLineStart	pCurrentBuffer->oAtLineStart
+ 
+-#ifdef __GNUC__
+-void 
+-strupr(char *s)
+-{
+-	while (*s) {
+-		*s = toupper(*s);
+-		s += 1;
+-	}
+-}
+ 
+-void 
+-strlwr(char *s)
+-{
+-	while (*s) {
+-		*s = tolower(*s);
+-		s += 1;
+-	}
+-}
+-#endif
+ void 
+ yyskipbytes(ULONG count)
+ {

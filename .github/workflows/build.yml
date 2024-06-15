@@ -12,10 +12,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
-      - name: Build image for... building
-        run: docker build -t rgbbuild .
-      - name: Build everything
-        run: docker run --rm -t -v $PWD/dist:/dist rgbbuild
+      - name: Build image for... building (Linux x86-64)
+        run: docker build -t rgbbuild-linux-x86_64 -f Dockerfile.linux1 .
+      - name: Build image for... building (MinGW x86)
+        run: docker build -t rgbbuild-mingw-x86 -f Dockerfile.win32 .
+      - name: Build everything (Linux x86-64)
+        run: docker run --rm -t -v $PWD/dist/x86_64-linux-musl:/dist rgbbuild-linux-x86_64
+      - name: Build everything (MinGW x86)
+        run: docker run --rm -t -v $PWD/dist/i686-w64-mingw32:/dist rgbbuild-mingw-x86
       - name: Upload artifact
         if: ${{ github.ref_name == 'master' }}
         uses: actions/upload-artifact@v4.3.0
