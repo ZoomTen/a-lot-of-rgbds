@@ -344,3 +344,11 @@ mkdir -p $CURDIST/bin
 patch -p2 < ../patches/0.4.0_fix_linking.diff
 env PATH="/bin:$PATH" make
 for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 0.8.0 <<<"
+export CURDIST=/dist/0.8.0
+cd /work/rgbds-0.8.0
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
