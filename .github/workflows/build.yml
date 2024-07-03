@@ -37,6 +37,6 @@ jobs:
         if: ${{ github.ref_name == 'master' }}
         uses: actions/upload-artifact@v4.3.0
         with:
-          name: rgbds
+          name: rgbds_${{ matrix.triplet }}
           path: |
             dist/
