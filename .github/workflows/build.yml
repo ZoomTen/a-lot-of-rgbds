@@ -8,18 +8,30 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        builder: [linux_x86-64_latest, windows_x86_latest]
+        include:
+          - builder: linux_x86-64_latest
+            triplet: x86_64-linux-musl
+            script: build-linux.sh
+          - builder: windows_x86_latest
+            triplet: i686-w64-mingw32
+            script: build-win32.sh
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
-      - name: Build image for... building (Linux x86-64)
-        run: docker build -t rgbbuild-linux-x86_64 -f Dockerfile.linux1 .
-      - name: Build image for... building (MinGW x86)
-        run: docker build -t rgbbuild-mingw-x86 -f Dockerfile.win32 .
-      - name: Build everything (Linux x86-64)
-        run: docker run --rm -t -v $PWD/dist/x86_64-linux-musl:/dist rgbbuild-linux-x86_64
-      - name: Build everything (MinGW x86)
-        run: docker run --rm -t -v $PWD/dist/i686-w64-mingw32:/dist rgbbuild-mingw-x86
+      - name: Build everything
+        run: |
+          cd versions
+          docker run --rm -t \
+            -v $PWD/../dist/${{ matrix.triplet }}:/dist \
+            -v $PWD:/work \
+            -v $PWD/../patches:/work/patches \
+            ghcr.io/zoomten/a-lot-of-rgbds-builder:${{ matrix.builder }} \
+            bash $PWD/../${{matrix.script}}
       - name: Upload artifact
         if: ${{ github.ref_name == 'master' }}
         uses: actions/upload-artifact@v4.3.0
