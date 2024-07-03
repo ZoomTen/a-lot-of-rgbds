@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: [linux_x86-64_latest, windows_x86_latest]
+        builder: [linux_x86-64_latest, windows_x86_latest, windows_x86-64_latest]
         include:
           - builder: linux_x86-64_latest
             triplet: x86_64-linux-musl
