@@ -20,6 +20,9 @@ jobs:
           - builder: windows_x86_latest
             triplet: i686-w64-mingw32
             script: build-win32.sh
+          - builder: windows_x86-64_latest
+            triplet: x86_64-w64-mingw32
+            script: build-win32.sh
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
