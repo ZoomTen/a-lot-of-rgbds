@@ -30,8 +30,9 @@ jobs:
             -v $PWD/../dist/${{ matrix.triplet }}:/dist \
             -v $PWD:/work \
             -v $PWD/../patches:/work/patches \
+            -v $PWD/../${{ matrix.script }}:/work/${{ matrix.script }} \
             ghcr.io/zoomten/a-lot-of-rgbds-builder:${{ matrix.builder }} \
-            bash ./${{matrix.script}}
+            bash ${{matrix.script}}
       - name: Upload artifact
         if: ${{ github.ref_name == 'master' }}
         uses: actions/upload-artifact@v4.3.0
