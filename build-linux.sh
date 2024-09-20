@@ -290,3 +290,9 @@ export CURDIST=/dist/0.8.0
 cd /work/rgbds-0.8.0
 patch -p2 < ../patches/0.4.0_fix_linking.diff
 make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 0.9.0-rc1 <<<"
+export CURDIST=/dist/0.9.0-rc1
+cd /work/rgbds-0.9.0-rc1
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+make && make install PREFIX=$CURDIST
