@@ -1,0 +1,15 @@
+--- a/rgbds-0.9.2/Makefile
++++ b/rgbds-0.9.2/Makefile
+@@ -19,9 +19,9 @@
+ # Other variables
+ 
+ PKG_CONFIG := pkg-config
+-PNGCFLAGS  := `${PKG_CONFIG} --cflags libpng`
+-PNGLDFLAGS := `${PKG_CONFIG} --libs-only-L libpng`
+-PNGLDLIBS  := `${PKG_CONFIG} --libs-only-l libpng`
++PNGCFLAGS  := `${PKG_CONFIG} --cflags libpng zlib`
++PNGLDFLAGS := `${PKG_CONFIG} --libs-only-L libpng zlib`
++PNGLDLIBS  := `${PKG_CONFIG} --libs-only-l libpng zlib`
+ 
+ # Note: if this comes up empty, `version.cpp` will automatically fall back to last release number
+ VERSION_STRING := `git --git-dir=.git -c safe.directory='*' describe --tags --dirty --always 2>/dev/null`

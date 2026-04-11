@@ -360,3 +360,83 @@ mkdir -p $CURDIST/bin
 patch -p2 < ../patches/0.4.0_fix_linking.diff
 env PATH="/bin:$PATH" make
 for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 0.9.0-rc2 <<<"
+export CURDIST=/dist/0.9.0-rc2
+cd /work/rgbds-0.9.0-rc2
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 0.9.0 <<<"
+export CURDIST=/dist/0.9.0
+cd /work/rgbds-0.9.0
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 0.9.1 <<<"
+export CURDIST=/dist/0.9.1
+cd /work/rgbds-0.9.1
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 0.9.2 <<<"
+export CURDIST=/dist/0.9.2
+cd /work/rgbds-0.9.2
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 0.9.3 <<<"
+export CURDIST=/dist/0.9.3
+cd /work/rgbds-0.9.3
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 0.9.4 <<<"
+export CURDIST=/dist/0.9.4
+cd /work/rgbds-0.9.4
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 1.0.0-rc1 <<<"
+export CURDIST=/dist/1.0.0-rc1
+cd /work/rgbds-1.0.0-rc1
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 1.0.0-rc2 <<<"
+export CURDIST=/dist/1.0.0-rc2
+cd /work/rgbds-1.0.0-rc2
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 1.0.0 <<<"
+export CURDIST=/dist/1.0.0
+cd /work/rgbds-1.0.0
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done
+
+echo -e "\n\n>>> rgbds 1.0.1 <<<"
+export CURDIST=/dist/1.0.1
+cd /work/rgbds-1.0.1
+mkdir -p $CURDIST/bin
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+env PATH="/bin:$PATH" make
+for i in rgb{asm,fix,link,gfx}.exe; do cp $i $CURDIST/bin/$i; done

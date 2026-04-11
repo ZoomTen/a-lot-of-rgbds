@@ -296,3 +296,63 @@ export CURDIST=/dist/0.9.0-rc1
 cd /work/rgbds-0.9.0-rc1
 patch -p2 < ../patches/0.4.0_fix_linking.diff
 make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 0.9.0-rc2 <<<"
+export CURDIST=/dist/0.9.0-rc2
+cd /work/rgbds-0.9.0-rc2
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 0.9.0 <<<"
+export CURDIST=/dist/0.9.0
+cd /work/rgbds-0.9.0
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 0.9.1 <<<"
+export CURDIST=/dist/0.9.1
+cd /work/rgbds-0.9.1
+patch -p2 < ../patches/0.4.0_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 0.9.2 <<<"
+export CURDIST=/dist/0.9.2
+cd /work/rgbds-0.9.2
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 0.9.3 <<<"
+export CURDIST=/dist/0.9.3
+cd /work/rgbds-0.9.3
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 0.9.4 <<<"
+export CURDIST=/dist/0.9.4
+cd /work/rgbds-0.9.4
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 1.0.0-rc1 <<<"
+export CURDIST=/dist/1.0.0-rc1
+cd /work/rgbds-1.0.0-rc1
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 1.0.0-rc2 <<<"
+export CURDIST=/dist/1.0.0-rc2
+cd /work/rgbds-1.0.0-rc2
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 1.0.0 <<<"
+export CURDIST=/dist/1.0.0
+cd /work/rgbds-1.0.0
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+make && make install PREFIX=$CURDIST
+
+echo -e "\n\n>>> rgbds 1.0.1 <<<"
+export CURDIST=/dist/1.0.1
+cd /work/rgbds-1.0.1
+patch -p2 < ../patches/0.9.2_fix_linking.diff
+make && make install PREFIX=$CURDIST
