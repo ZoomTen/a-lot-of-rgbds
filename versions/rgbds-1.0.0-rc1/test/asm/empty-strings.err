@@ -1,0 +1,5 @@
+warning: Treating strings as numbers is deprecated [-Wobsolete]
+    at empty-strings.asm(5)
+error: Strings as numbers must be a single charmap unit
+    at empty-strings.asm(5)
+Assembly aborted with 1 error!

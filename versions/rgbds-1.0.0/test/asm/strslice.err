@@ -1,0 +1,20 @@
+warning: STRSLICE: Start index 4 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(14)
+warning: STRSLICE: Index starts at 0 [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(15)
+warning: STRSLICE: Stop index 31 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(18)
+warning: STRSLICE: Stop index 300 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(19)
+warning: STRSLICE: Index starts at 0 [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(20)
+warning: STRSLICE: Stop index 300 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(20)
+warning: STRSLICE: Start index 4 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(22)
+warning: STRSLICE: Stop index 4 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(22)
+warning: STRSLICE: Stop index 4 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(23)
+warning: STRSLICE: Stop index 12 is past the end of the string [-Wbuiltin-args]
+    at strslice.asm::xstrslice(2) <- strslice.asm(26)

@@ -1,0 +1,8 @@
+warning: Cannot shift macro arguments past their end [-Wmacro-shift]
+    at shift-negative.asm::m(13) <- shift-negative.asm(20)
+warning: Cannot shift macro arguments past their beginning [-Wmacro-shift]
+    at shift-negative.asm::m(14) <- shift-negative.asm(20)
+warning: Cannot shift macro arguments past their end [-Wmacro-shift]
+    at shift-negative.asm::m(16) <- shift-negative.asm(20)
+warning: Cannot shift macro arguments past their beginning [-Wmacro-shift]
+    at shift-negative.asm::m(18) <- shift-negative.asm(20)

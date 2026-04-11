@@ -1,0 +1,1 @@
+error: Section "Frag" is defined with 4-byte alignment (offset 1) at fragment-align/org-rev-bad/a.asm(6), but with address $0006 at fragment-align/org-rev-bad/b.asm(2)

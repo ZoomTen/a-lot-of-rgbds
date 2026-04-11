@@ -1,0 +1,5 @@
+warning: section-in-load.asm(3): [-Wunterminated-load]
+    `LOAD` block without `ENDL` terminated by `SECTION`
+error: section-in-load.asm(4):
+    Found `ENDL` outside of a `LOAD` block
+Assembly aborted with 1 error!

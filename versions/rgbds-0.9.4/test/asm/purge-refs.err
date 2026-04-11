@@ -1,0 +1,5 @@
+error: purge-refs.asm(6):
+    Symbol "Floating" is referenced and thus cannot be purged
+warning: purge-refs.asm(13): [-Wpurge]
+    Purging a label "Fixed"
+Assembly aborted with 1 error!

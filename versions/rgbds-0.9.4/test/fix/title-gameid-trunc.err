@@ -1,0 +1,6 @@
+warning: [-Wtruncation]
+    Truncating title "0123456789ABCDEF" to 11 chars
+warning: [-Woverwrite]
+    Overwrote a non-zero byte in the title
+warning: [-Woverwrite]
+    Overwrote a non-zero byte in the manufacturer code

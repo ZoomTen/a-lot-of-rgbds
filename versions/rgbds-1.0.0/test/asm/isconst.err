@@ -1,0 +1,13 @@
+warning: Test #1: Compile-time constant [-Wuser]
+    at isconst.asm::test_expr(10) <- isconst.asm(14)
+error: Expected constant expression: undefined symbol `UnknownLabel`
+    at isconst.asm::test_expr(9) <- isconst.asm(15)
+warning: Test #3: Compile-time constant [-Wuser]
+    at isconst.asm::test_expr(10) <- isconst.asm(21)
+warning: Test #4: Compile-time constant [-Wuser]
+    at isconst.asm::test_expr(10) <- isconst.asm(22)
+error: Expected constant expression: `FloatingLabel` is not constant at assembly time
+    at isconst.asm::test_expr(9) <- isconst.asm(28)
+warning: Test #6: Compile-time constant [-Wuser]
+    at isconst.asm::test_expr(10) <- isconst.asm(29)
+Assembly aborted with 2 errors!

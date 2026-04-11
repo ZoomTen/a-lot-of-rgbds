@@ -1,0 +1,3 @@
+FATAL: Unable to place "test" (WRAMX section) in bank $02 with align mask $ffc0
+Linking aborted with 1 error
+---

@@ -1,0 +1,287 @@
+# SPDX-License-Identifier: MIT
+
+.SUFFIXES:
+.SUFFIXES: .cpp .y .o
+
+.PHONY: all clean install checkdiff develop debug profile coverage format tidy iwyu mingw32 mingw64 wine-shim dist
+
+# User-defined variables
+
+Q       := @
+PREFIX  := /usr/local
+bindir  := ${PREFIX}/bin
+mandir  := ${PREFIX}/share/man
+SUFFIX  :=
+STRIP   := -s
+BINMODE := 755
+MANMODE := 644
+
+# Other variables
+
+PKG_CONFIG := pkg-config
+PNGCFLAGS  := `${PKG_CONFIG} --cflags libpng`
+PNGLDFLAGS := `${PKG_CONFIG} --libs-only-L libpng`
+PNGLDLIBS  := `${PKG_CONFIG} --libs-only-l libpng`
+
+# Note: if this comes up empty, `version.cpp` will automatically fall back to last release number
+VERSION_STRING := `git --git-dir=.git -c safe.directory='*' describe --tags --dirty --always 2>/dev/null`
+
+WARNFLAGS := -Wall -pedantic -Wno-unknown-warning-option -Wno-gnu-zero-variadic-macro-arguments
+
+# Overridable CXXFLAGS
+CXXFLAGS     ?= -O3 -flto -DNDEBUG
+# Non-overridable CXXFLAGS
+REALCXXFLAGS := ${CXXFLAGS} ${WARNFLAGS} -std=c++2a -I include -fno-exceptions -fno-rtti
+# Overridable LDFLAGS
+LDFLAGS      ?=
+# Non-overridable LDFLAGS
+REALLDFLAGS  := ${LDFLAGS} ${WARNFLAGS} -DBUILD_VERSION_STRING=\"${VERSION_STRING}\"
+
+# Wrapper around bison that passes flags depending on what the version supports
+BISON := src/bison.sh
+
+RM := rm -rf
+
+# Used for checking pull requests
+BASE_REF := origin/master
+
+# Rules to build the RGBDS binaries
+
+all: rgbasm rgblink rgbfix rgbgfx
+
+common_obj := \
+	src/extern/getopt.o \
+	src/diagnostics.o \
+	src/style.o \
+	src/usage.o \
+	src/util.o
+
+rgbasm_obj := \
+	${common_obj} \
+	src/asm/actions.o \
+	src/asm/charmap.o \
+	src/asm/fixpoint.o \
+	src/asm/format.o \
+	src/asm/fstack.o \
+	src/asm/lexer.o \
+	src/asm/macro.o \
+	src/asm/main.o \
+	src/asm/opt.o \
+	src/asm/output.o \
+	src/asm/parser.o \
+	src/asm/rpn.o \
+	src/asm/section.o \
+	src/asm/symbol.o \
+	src/asm/warning.o \
+	src/extern/utf8decoder.o \
+	src/backtrace.o \
+	src/linkdefs.o \
+	src/opmath.o \
+	src/verbosity.o
+
+src/asm/lexer.o src/asm/main.o: src/asm/parser.hpp
+
+rgblink_obj := \
+	${common_obj} \
+	src/link/assign.o \
+	src/link/fstack.o \
+	src/link/lexer.o \
+	src/link/layout.o \
+	src/link/main.o \
+	src/link/object.o \
+	src/link/output.o \
+	src/link/patch.o \
+	src/link/script.o \
+	src/link/sdas_obj.o \
+	src/link/section.o \
+	src/link/symbol.o \
+	src/link/warning.o \
+	src/extern/utf8decoder.o \
+	src/backtrace.o \
+	src/linkdefs.o \
+	src/opmath.o \
+	src/verbosity.o
+
+src/link/lexer.o src/link/main.o: src/link/script.hpp
+
+rgbfix_obj := \
+	${common_obj} \
+	src/fix/fix.o \
+	src/fix/main.o \
+	src/fix/mbc.o \
+	src/fix/warning.o
+
+rgbgfx_obj := \
+	${common_obj} \
+	src/gfx/color_set.o \
+	src/gfx/main.o \
+	src/gfx/pal_packing.o \
+	src/gfx/pal_sorting.o \
+	src/gfx/pal_spec.o \
+	src/gfx/png.o \
+	src/gfx/process.o \
+	src/gfx/reverse.o \
+	src/gfx/rgba.o \
+	src/gfx/warning.o \
+	src/verbosity.o
+
+rgbasm: ${rgbasm_obj}
+	$Q${CXX} ${REALLDFLAGS} -o $@ ${rgbasm_obj} ${REALCXXFLAGS} src/version.cpp
+
+rgblink: ${rgblink_obj}
+	$Q${CXX} ${REALLDFLAGS} -o $@ ${rgblink_obj} ${REALCXXFLAGS} src/version.cpp
+
+rgbfix: ${rgbfix_obj}
+	$Q${CXX} ${REALLDFLAGS} -o $@ ${rgbfix_obj} ${REALCXXFLAGS} src/version.cpp
+
+rgbgfx: ${rgbgfx_obj}
+	$Q${CXX} ${REALLDFLAGS} ${PNGLDFLAGS} -o $@ ${rgbgfx_obj} ${REALCXXFLAGS} ${PNGLDLIBS} src/version.cpp
+
+test/gfx/randtilegen: test/gfx/randtilegen.cpp
+	$Q${CXX} ${REALLDFLAGS} ${PNGLDFLAGS} -o $@ $^ ${REALCXXFLAGS} ${PNGCFLAGS} ${PNGLDLIBS}
+
+test/gfx/rgbgfx_test: test/gfx/rgbgfx_test.cpp
+	$Q${CXX} ${REALLDFLAGS} ${PNGLDFLAGS} -o $@ $^ ${REALCXXFLAGS} ${PNGCFLAGS} ${PNGLDLIBS}
+
+# Rules to process files
+
+# We want the Bison invocation to pass through our rules, not default ones
+.y.o:
+
+.y.cpp:
+	$Q${BISON} $@ $<
+
+# Bison-generated C++ files have an accompanying header
+src/asm/parser.hpp: src/asm/parser.cpp
+	$Qtouch $@
+src/link/script.hpp: src/link/script.cpp
+	$Qtouch $@
+
+# Only RGBGFX uses libpng (POSIX make doesn't support pattern rules to cover all these)
+src/gfx/color_set.o: src/gfx/color_set.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/main.o: src/gfx/main.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/pal_packing.o: src/gfx/pal_packing.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/pal_sorting.o: src/gfx/pal_sorting.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/pal_spec.o: src/gfx/pal_spec.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/png.o: src/gfx/png.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/process.o: src/gfx/process.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/reverse.o: src/gfx/reverse.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+src/gfx/rgba.o: src/gfx/rgba.cpp
+	$Q${CXX} ${REALCXXFLAGS} ${PNGCFLAGS} -c -o $@ $<
+
+.cpp.o:
+	$Q${CXX} ${REALCXXFLAGS} -c -o $@ $<
+
+# Target used to remove all files generated by other Makefile targets
+clean:
+	$Q${RM} rgbasm rgbasm.exe
+	$Q${RM} rgblink rgblink.exe
+	$Q${RM} rgbfix rgbfix.exe
+	$Q${RM} rgbgfx rgbgfx.exe
+	$Qfind src/ -name "*.o" -exec rm {} \;
+	$Qfind . -type f \( -name "*.gcno" -o -name "*.gcda" -o -name "*.gcov" \) -exec rm {} \;
+	$Q${RM} rgbshim.sh
+	$Q${RM} src/asm/parser.cpp src/asm/parser.hpp src/asm/stack.hh
+	$Q${RM} src/link/script.cpp src/link/script.hpp src/link/stack.hh
+	$Q${RM} test/gfx/randtilegen test/gfx/rgbgfx_test
+
+# Target used to install the binaries and man pages.
+install: all
+	$Qinstall -d ${DESTDIR}${bindir}/ ${DESTDIR}${mandir}/man1/ ${DESTDIR}${mandir}/man5/ ${DESTDIR}${mandir}/man7/
+	$Qinstall ${STRIP} -m ${BINMODE} rgbasm ${DESTDIR}${bindir}/rgbasm${SUFFIX}
+	$Qinstall ${STRIP} -m ${BINMODE} rgblink ${DESTDIR}${bindir}/rgblink${SUFFIX}
+	$Qinstall ${STRIP} -m ${BINMODE} rgbfix ${DESTDIR}${bindir}/rgbfix${SUFFIX}
+	$Qinstall ${STRIP} -m ${BINMODE} rgbgfx ${DESTDIR}${bindir}/rgbgfx${SUFFIX}
+	$Qinstall -m ${MANMODE} man/rgbasm.1 man/rgblink.1 man/rgbfix.1 man/rgbgfx.1 ${DESTDIR}${mandir}/man1/
+	$Qinstall -m ${MANMODE} man/rgbds.5 man/rgbasm.5 man/rgbasm-old.5 man/rgblink.5 ${DESTDIR}${mandir}/man5/
+	$Qinstall -m ${MANMODE} man/rgbds.7 man/gbz80.7 ${DESTDIR}${mandir}/man7/
+
+# Target used to check for suspiciously missing changed files.
+checkdiff:
+	$Qcontrib/checkdiff.bash `git merge-base HEAD ${BASE_REF}`
+
+# Target used in development to prevent adding new issues to the source code.
+# All warnings are treated as errors to block the compilation and make the
+# continous integration infrastructure return failure.
+# The rationale for some of the flags is documented in the CMakeLists.
+develop:
+	$Q${MAKE} WARNFLAGS="${WARNFLAGS} -Werror -Wextra \
+		-Walloc-zero -Wcast-align -Wcast-qual -Wduplicated-branches -Wduplicated-cond \
+		-Wfloat-equal -Wlogical-op -Wnull-dereference -Wold-style-cast -Wshift-overflow=2 \
+		-Wstringop-overflow=4 -Wtrampolines -Wundef -Wuninitialized -Wunused -Wshadow \
+		-Wformat=2 -Wformat-overflow=2 -Wformat-truncation=1 \
+		-Wno-format-nonliteral -Wno-strict-overflow -Wno-unused-but-set-variable \
+		-Wno-type-limits -Wno-tautological-constant-out-of-range-compare -Wvla \
+		-D_GLIBCXX_ASSERTIONS -fsanitize=address -fsanitize=undefined \
+		-fsanitize=float-divide-by-zero" \
+		CXXFLAGS="-ggdb3 -Og -fno-omit-frame-pointer -fno-optimize-sibling-calls"
+
+# Target used in development to debug with gdb.
+debug:
+	$Qenv ${MAKE} \
+		CXXFLAGS="-ggdb3 -O0 -fno-omit-frame-pointer -fno-optimize-sibling-calls"
+
+# Target used in development to profile with callgrind.
+profile:
+	$Qenv ${MAKE} \
+		CXXFLAGS="-ggdb3 -O3 -fno-omit-frame-pointer -fno-optimize-sibling-calls"
+
+# Target used in development to inspect code coverage with gcov.
+coverage:
+	$Qenv ${MAKE} \
+		CXXFLAGS="-ggdb3 -Og --coverage -fno-omit-frame-pointer -fno-optimize-sibling-calls"
+
+# Target used in development to format source code with clang-format.
+format:
+	$Qclang-format -i $$(git ls-files '*.hpp' '*.cpp')
+
+# Target used in development to check code with clang-tidy.
+# Requires Bison-generated header files to exist.
+tidy: src/asm/parser.hpp src/link/script.hpp
+	$Qclang-tidy -p . $$(git ls-files '*.hpp' '*.cpp')
+
+# Target used in development to remove unused `#include` headers.
+iwyu:
+	$Qenv ${MAKE} \
+		CXX="include-what-you-use" \
+		REALCXXFLAGS="-std=c++2a -I include"
+
+# Targets for the project maintainer to easily create Windows exes.
+# This is not for Windows users!
+# If you're building on Windows with Cygwin or MinGW, just follow the Unix
+# install instructions instead.
+
+mingw32:
+	$Q${MAKE} all test/gfx/randtilegen test/gfx/rgbgfx_test \
+		CXX=i686-w64-mingw32-g++ \
+		CXXFLAGS="-O3 -flto -DNDEBUG -static-libgcc -static-libstdc++" \
+		PKG_CONFIG="PKG_CONFIG_SYSROOT_DIR=/usr/i686-w64-mingw32 pkg-config"
+
+mingw64:
+	$Q${MAKE} all test/gfx/randtilegen test/gfx/rgbgfx_test \
+		CXX=x86_64-w64-mingw32-g++ \
+		PKG_CONFIG="PKG_CONFIG_SYSROOT_DIR=/usr/x86_64-w64-mingw32 pkg-config"
+
+wine-shim:
+	$Qecho '#!/usr/bin/env bash' > rgbshim.sh
+	$Qecho 'WINEDEBUG=-all wine $$0.exe "$${@:1}"' >> rgbshim.sh
+	$Qchmod +x rgbshim.sh
+	$Qln -s rgbshim.sh rgbasm
+	$Qln -s rgbshim.sh rgblink
+	$Qln -s rgbshim.sh rgbfix
+	$Qln -s rgbshim.sh rgbgfx
+
+# Target for the project maintainer to produce distributable release tarballs
+# of the source code.
+
+dist:
+	$Qgit ls-files | sed s~^~$${PWD##*/}/~ \
+	  | tar -czf rgbds-source.tar.gz -C .. -T -

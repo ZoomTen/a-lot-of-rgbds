@@ -1,0 +1,25 @@
+error: invalid-numbers.asm(2):
+    Invalid integer constant, no digits after '$'
+error: invalid-numbers.asm(3):
+    Invalid graphics constant, no digits after '`'
+error: invalid-numbers.asm(4):
+    Invalid integer constant, no digits after '%'
+error: invalid-numbers.asm(5):
+    Invalid integer constant, no digits after '&'
+error: invalid-numbers.asm(6):
+    Invalid integer constant, no digits after '$'
+warning: invalid-numbers.asm(9): [-Wlarge-constant]
+    Integer constant is too large
+warning: invalid-numbers.asm(10): [-Wlarge-constant]
+    Integer constant is too large
+warning: invalid-numbers.asm(11): [-Wlarge-constant]
+    Integer constant is too large
+warning: invalid-numbers.asm(12): [-Wlarge-constant]
+    Integer constant is too large
+warning: invalid-numbers.asm(13): [-Wlarge-constant]
+    Magnitude of fixed-point constant is too large
+error: invalid-numbers.asm(16):
+    Invalid fixed-point constant, no significant digits after 'q'
+error: invalid-numbers.asm(19):
+    Fixed-point constant precision must be between 1 and 31
+Assembly aborted with 7 errors!

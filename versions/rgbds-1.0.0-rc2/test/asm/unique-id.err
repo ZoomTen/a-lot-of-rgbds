@@ -1,0 +1,32 @@
+error: `\@` cannot be used outside of a macro or loop (`REPT`/`FOR` block)
+    at unique-id.asm(11)
+    while expanding symbol `warn_unique`
+warning: ! [-Wuser]
+    at unique-id.asm(11)
+warning: _u1! [-Wuser]
+    at unique-id.asm::m(4) <- unique-id.asm(12)
+warning: _u2! [-Wuser]
+    at unique-id.asm::m::REPT~1(6) <- unique-id.asm::m(5) <- unique-id.asm(12)
+warning: _u3! [-Wuser]
+    at unique-id.asm::m::REPT~2(6) <- unique-id.asm::m(5) <- unique-id.asm(12)
+warning: _u1! [-Wuser]
+    at unique-id.asm::m(8) <- unique-id.asm(12)
+error: `\@` cannot be used outside of a macro or loop (`REPT`/`FOR` block)
+    at unique-id.asm(13)
+    while expanding symbol `warn_unique`
+warning: ! [-Wuser]
+    at unique-id.asm(13)
+warning: _u4! [-Wuser]
+    at unique-id.asm::m(4) <- unique-id.asm(14)
+warning: _u5! [-Wuser]
+    at unique-id.asm::m::REPT~1(6) <- unique-id.asm::m(5) <- unique-id.asm(14)
+warning: _u6! [-Wuser]
+    at unique-id.asm::m::REPT~2(6) <- unique-id.asm::m(5) <- unique-id.asm(14)
+warning: _u4! [-Wuser]
+    at unique-id.asm::m(8) <- unique-id.asm(14)
+error: `\@` cannot be used outside of a macro or loop (`REPT`/`FOR` block)
+    at unique-id.asm(15)
+    while expanding symbol `warn_unique`
+warning: ! [-Wuser]
+    at unique-id.asm(15)
+Assembly aborted with 3 errors!

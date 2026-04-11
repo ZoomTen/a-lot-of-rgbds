@@ -1,0 +1,59 @@
+error: invalid-utf-8-strings.asm(16):
+    STRLEN: Invalid UTF-8 byte 0xA3
+error: invalid-utf-8-strings.asm(16):
+    STRLEN: Invalid UTF-8 byte 0xA4
+error: invalid-utf-8-strings.asm(16):
+    STRLEN: Invalid UTF-8 byte 0xF0
+error: invalid-utf-8-strings.asm(16):
+    STRLEN: Invalid UTF-8 byte 0xA2
+error: invalid-utf-8-strings.asm(17):
+    STRSUB: Invalid UTF-8 byte 0xA3
+error: invalid-utf-8-strings.asm(17):
+    STRSUB: Invalid UTF-8 byte 0xA4
+error: invalid-utf-8-strings.asm(17):
+    STRSUB: Invalid UTF-8 byte 0xF0
+error: invalid-utf-8-strings.asm(17):
+    STRSUB: Invalid UTF-8 byte 0xA2
+error: invalid-utf-8-strings.asm(22):
+    STRSUB: Invalid UTF-8 byte 0xA3
+error: invalid-utf-8-strings.asm(22):
+    STRSUB: Invalid UTF-8 byte 0xA4
+error: invalid-utf-8-strings.asm(35):
+    STRLEN: Invalid UTF-8 byte 0xFE
+error: invalid-utf-8-strings.asm(35):
+    STRLEN: Invalid UTF-8 byte 0x81
+error: invalid-utf-8-strings.asm(35):
+    STRLEN: Invalid UTF-8 byte 0xFF
+error: invalid-utf-8-strings.asm(36):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(36):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(36):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(39):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(39):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(39):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(39):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(39):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(40):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(40):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(40):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(40):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(40):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(40):
+    Input string is not valid UTF-8
+error: invalid-utf-8-strings.asm(50):
+    STRLEN: Incomplete UTF-8 character
+error: invalid-utf-8-strings.asm(54):
+    STRSUB: Incomplete UTF-8 character
+error: Assembly aborted (29 errors)!

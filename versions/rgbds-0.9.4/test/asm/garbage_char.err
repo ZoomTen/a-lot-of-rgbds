@@ -1,0 +1,3 @@
+error: garbage_char.asm(1):
+    Unknown character 0xFF
+Assembly aborted with 1 error!

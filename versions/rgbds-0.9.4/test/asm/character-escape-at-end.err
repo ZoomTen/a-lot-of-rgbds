@@ -1,0 +1,5 @@
+error: character-escape-at-end.asm(1):
+    Illegal character escape at end of input
+error: character-escape-at-end.asm(1):
+    Unterminated string
+Assembly aborted with 2 errors!

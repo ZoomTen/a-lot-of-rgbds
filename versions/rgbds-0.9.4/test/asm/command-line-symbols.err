@@ -1,0 +1,4 @@
+error: command-line-symbols.asm(3):
+    'FOO' already defined at <command-line>
+    (should it be {interpolated} to define its contents "hello"?)
+Assembly aborted with 1 error!

@@ -1,0 +1,3 @@
+	# Override embedded with DMG
+	-c embedded
+	-c DMG

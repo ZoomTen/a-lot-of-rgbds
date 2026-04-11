@@ -1,0 +1,7 @@
+error: ff00+c-bad.asm(8):
+    Base value must be equal to $FF00 for $FF00+C
+error: ff00+c-bad.asm(9):
+    Expected constant expression: 'xyz' is not constant at assembly time
+error: ff00+c-bad.asm(9):
+    Base value must be equal to $FF00 for $FF00+C
+Assembly aborted with 3 errors!

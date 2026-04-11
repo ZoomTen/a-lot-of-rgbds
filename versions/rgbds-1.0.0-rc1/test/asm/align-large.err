@@ -1,0 +1,5 @@
+error: Alignment must be between 0 and 16, not 17
+    at align-large.asm(1)
+error: Alignment must be between 0 and 16, not 17
+    at align-large.asm(2)
+Assembly aborted with 2 errors!

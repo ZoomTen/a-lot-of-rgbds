@@ -1,0 +1,13 @@
+error: bracketed-macro-args.asm(33) -> bracketed-macro-args.asm::bad(26):
+    Bracketed symbol "nonnumeric" is not numeric
+error: bracketed-macro-args.asm(33) -> bracketed-macro-args.asm::bad(27):
+    Invalid bracketed macro argument '\<0>'
+error: bracketed-macro-args.asm(33) -> bracketed-macro-args.asm::bad(28):
+    Bracketed symbol "undefined" does not exist
+error: bracketed-macro-args.asm(33) -> bracketed-macro-args.asm::bad(29):
+    Macro argument '\<2>' not defined
+error: bracketed-macro-args.asm(33) -> bracketed-macro-args.asm::bad(30):
+    Macro argument '\<2>' not defined
+error: bracketed-macro-args.asm(39) -> bracketed-macro-args.asm::toolong(36):
+    Bracketed symbol "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz" does not exist
+Assembly aborted with 6 errors!

@@ -1,0 +1,2 @@
+warning: Where am I? [-Wuser]
+    at macro-purge.asm::m(4) <- macro-purge.asm(6)

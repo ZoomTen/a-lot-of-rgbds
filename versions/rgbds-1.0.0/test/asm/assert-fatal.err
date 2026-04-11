@@ -1,0 +1,2 @@
+FATAL: Assertion failed: there are four lights
+    at assert-fatal.asm(1)

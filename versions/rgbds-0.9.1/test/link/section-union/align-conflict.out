@@ -1,0 +1,6 @@
+error: Section "conflicting alignment" is defined with 4-byte alignment (offset 0) at section-union/align-conflict.asm(7), but with address $cafe at section-union/align-conflict.asm(7)
+---
+error: <stdin>(18):
+    Section already declared as aligned to 4 bytes (offset 0)
+FATAL: <stdin>(18):
+    Cannot create section "conflicting alignment" (1 error)

@@ -1,0 +1,3 @@
+error: fragment-align.asm(25):
+    Section is misaligned ($0004 bytes into the section, expected ALIGN[2, 0], got ALIGN[2, 1])
+Assembly aborted with 1 error!

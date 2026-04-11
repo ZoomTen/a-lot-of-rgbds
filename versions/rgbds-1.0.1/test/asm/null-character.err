@@ -1,0 +1,2 @@
+warning: Unmapped character '\0' [-Wunmapped-char]
+    at null-character.asm(12)

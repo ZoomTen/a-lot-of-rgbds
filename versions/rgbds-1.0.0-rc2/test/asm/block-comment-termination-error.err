@@ -1,0 +1,5 @@
+error: Unterminated block comment
+    at block-comment-termination-error.asm(1)
+error: syntax error, unexpected end of buffer
+    at block-comment-termination-error.asm(1)
+Assembly aborted with 2 errors!

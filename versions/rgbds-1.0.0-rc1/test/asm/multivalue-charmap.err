@@ -1,0 +1,10 @@
+warning: All character units must be 8-bit [-Wtruncation]
+    at multivalue-charmap.asm(11)
+warning: Treating strings as numbers is deprecated [-Wobsolete]
+    at multivalue-charmap.asm(20)
+warning: Treating strings as numbers is deprecated [-Wobsolete]
+    at multivalue-charmap.asm(21)
+warning: All character units must be 8-bit [-Wtruncation]
+    at multivalue-charmap.asm(22)
+warning: All character units must be 8-bit [-Wtruncation]
+    at multivalue-charmap.asm(34)

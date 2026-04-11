@@ -1,0 +1,3 @@
+error: symbol-invalid-macro-arg.asm(1):
+    Invalid bracketed macro argument '\<0>'
+Assembly aborted with 1 error!

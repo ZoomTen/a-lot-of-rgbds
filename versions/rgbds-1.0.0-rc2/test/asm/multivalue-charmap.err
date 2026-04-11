@@ -1,0 +1,6 @@
+warning: All character units must be 8-bit [-Wtruncation]
+    at multivalue-charmap.asm(11)
+warning: All character units must be 8-bit [-Wtruncation]
+    at multivalue-charmap.asm(22)
+warning: All character units must be 8-bit [-Wtruncation]
+    at multivalue-charmap.asm(34)

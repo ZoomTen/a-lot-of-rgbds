@@ -1,0 +1,371 @@
+.\" SPDX-License-Identifier: MIT
+.\"
+.Dd September 1, 2025
+.Dt RGBLINK 1
+.Os
+.Sh NAME
+.Nm rgblink
+.Nd Game Boy linker
+.Sh SYNOPSIS
+.Nm
+.Op Fl dhMtVvwx
+.Op Fl B Ar param
+.Op Fl \-color Ar when
+.Op Fl l Ar linker_script
+.Op Fl m Ar map_file
+.Op Fl n Ar sym_file
+.Op Fl O Ar overlay_file
+.Op Fl o Ar out_file
+.Op Fl p Ar pad_value
+.Op Fl S Ar spec
+.Op Fl W Ar warning
+.Ar
+.Sh DESCRIPTION
+The
+.Nm
+program links RGB object files, typically created by
+.Xr rgbasm 1 ,
+into a single Game Boy ROM file.
+The object file format is documented in
+.Xr rgbds 5 .
+.Pp
+ROM0 sections are placed in the first 16 KiB of the output ROM, and ROMX sections are placed in any 16 KiB
+.Dq bank
+except the first.
+If your ROM will only be 32 KiB, you can use the
+.Fl t
+option to change this.
+.Pp
+Similarly, WRAM0 sections are placed in the first 4 KiB of WRAM
+.Pq Dq bank 0 ,
+and WRAMX sections are placed in any bank of the last 4 KiB.
+If your ROM doesn't use banked WRAM, you can use the
+.Fl w
+option to change this.
+.Pp
+Also, if your ROM is designed for a monochrome Game Boy, you can make sure that you don't use any incompatible section by using the
+.Fl d
+option, which implies
+.Fl w
+but also prohibits the use of banked VRAM.
+.Pp
+The input
+.Ar file
+can be a path to a file, or
+.Cm \-
+to read from standard input.
+.Pp
+Note that options can be abbreviated as long as the abbreviation is unambiguous:
+.Fl \-verb
+is
+.Fl \-verbose ,
+but
+.Fl \-ver
+is invalid because it could also be
+.Fl \-version .
+The arguments are as follows:
+.Bl -tag -width Ds
+.It Fl B Ar param , Fl \-backtrace Ar param
+Configures how location backtraces are printed if warnings or errors occur.
+This flag may be specified multiple times with different parameters that combine meaningfully.
+If
+.Ar param
+is a positive number, it specifies the maximum backtrace depth, abbreviating deeper ones.
+Other valid parameter values are the following:
+.Bl -tag -width Ds
+.It Cm 0
+Do not limit the maximum backtrace depth; this is the default.
+.It Cm all
+Force all locations to be printed, even "quiet" ones (see
+.Dq Excluding locations from backtraces
+in
+.Xr rgbasm 5
+for details).
+.It Cm no-all
+Do not print "quieted" locations in backtraces; this is the default.
+.It Cm collapse
+Print all locations on one line.
+.It Cm no-collapse
+Print one location per line; this is the default.
+.El
+.It Fl \-color Ar when
+Specify when to highlight warning and error messages with color:
+.Ql always ,
+.Ql never ,
+or
+.Ql auto .
+.Ql auto
+determines whether to use colors based on the
+.Ql Lk https://no-color.org/ NO_COLOR
+or
+.Ql Lk https://force-color.org/ FORCE_COLOR
+environment variables, or whether the output is to a TTY.
+.It Fl d , Fl \-dmg
+Enable DMG mode.
+Prohibit the use of sections that doesn't exist on a DMG, such as VRAM bank 1.
+This option automatically enables
+.Fl w .
+.It Fl h , Fl \-help
+Print help text for the program and exit.
+.It Fl l Ar linker_script , Fl \-linkerscript Ar linker_script
+Specify a linker script file that tells the linker how sections must be placed in the ROM.
+The attributes assigned in the linker script must be consistent with any assigned in the code.
+See
+.Xr rgblink 5
+for more information about the linker script format.
+.It Fl M , Fl \-no-sym-in-map
+If specified, the map file will not list symbols, only sections.
+.It Fl m Ar map_file , Fl \-map Ar map_file
+Write a map file to the given filename, listing how sections and symbols were assigned.
+.It Fl n Ar sym_file , Fl \-sym Ar sym_file
+Write a symbol file to the given filename, listing all visible labels and exported numeric constants.
+Labels output their bank and address, numeric constants output their value, following
+.Lk https://rgbds.gbdev.io/sym/ this specification .
+Several external programs can use this information, for example to help debugging ROMs.
+.It Fl O Ar overlay_file , Fl \-overlay Ar overlay_file
+If specified, sections will be overlaid "on top" of the ROM image
+.Ar overlay_file :
+empty space between sections will be filled by the corresponding bytes from
+.Ar overlay_file .
+This is useful to patch an existing ROM.
+Note that all sections must be fixed (forced bank
+.Sy and
+address)!
+.It Fl o Ar out_file , Fl \-output Ar out_file
+Write the ROM image to the given file.
+.It Fl p Ar pad_value , Fl \-pad Ar pad_value
+When inserting padding between sections, pad with this value.
+The default is 0.
+.It Fl S Ar spec , Fl \-scramble Ar spec
+Enables a different
+.Dq scrambling
+algorithm for placing sections.
+See
+.Sx Scrambling algorithm
+below for an explanation and a description of
+.Ar spec .
+.It Fl t , Fl \-tiny
+Expand the ROM0 section size from 16 KiB to the full 32 KiB assigned to ROM.
+ROMX sections that are fixed to a bank other than 1 become errors, other ROMX sections are treated as ROM0.
+Useful for ROMs that fit in 32 KiB.
+.It Fl V , Fl \-version
+Print the version of the program and exit.
+.It Fl v , Fl \-verbose
+Be verbose.
+The verbosity level is increased by one each time the flag is specified, with each level including the previous:
+.Bl -enum -compact
+.It
+Print the
+.Nm
+configuration before taking actions.
+.It
+Print a notice before significant actions.
+.It
+Print some of the actions' intermediate results.
+.It
+Print some internal debug information.
+.It
+Print detailed internal information.
+.El
+The verbosity level does not go past 6.
+.Pp
+Note that verbose output is only intended to be consumed by humans, and may change without notice between RGBDS releases; relying on those for scripts is not advised.
+.It Fl W Ar warning , Fl \-warning Ar warning
+Set warning flag
+.Ar warning .
+A warning message will be printed if
+.Ar warning
+is an unknown warning flag.
+See the
+.Sx DIAGNOSTICS
+section for a list of warnings.
+.It Fl w , Fl \-wramx
+Expand the WRAM0 section size from 4 KiB to the full 8 KiB assigned to WRAM.
+WRAMX sections that are fixed to a bank other than 1 become errors, other WRAMX sections are treated as WRAM0.
+.It Fl x , Fl \-nopad
+Disables padding the end of the final file.
+This option automatically enables
+.Fl t .
+You can use this to make binary files that are not a ROM.
+When making a ROM, note that not using this is not a replacement for
+.Xr rgbfix 1 Ap s Fl p
+option!
+.El
+.Ss Scrambling algorithm
+The default section placement algorithm tries to place sections into as few banks as possible.
+(It turns out that section placement is an NP-complete problem known as "bin packing", so
+.Nm
+does not attempt to find the optimal solution, but instead uses a "first-fit" heuristic to find a good one in a reasonable amount of time.
+There are no guarantees about where this algorithm will place sections, apart from the bank, address, and alignment constraints manually specified for the sections.)
+.Pp
+.Dq Scrambling
+instead places sections into a given pool of banks, trying to minimize the number of sections sharing a given bank.
+This is useful to catch broken bank assumptions, such as expecting two different sections to land in the same bank (that is not guaranteed unless both are manually assigned the same bank number).
+.Pp
+A scrambling spec is a comma-separated list of region specs.
+A trailing comma is allowed, as well as whitespace between all specs and their components.
+Each region spec has the following form:
+.D1 Ar region Ns Op = Ns Ar size
+.Ar region
+must be one of the following (case-insensitive), while
+.Ar size
+must be a positive decimal integer between 1 and the corresponding maximum.
+Certain regions allow omitting the size, in which case it defaults to its max value.
+.Bl -column "Region name" "Max value" "Size optional"
+Region name Ta Max size Ta Size optional
+.Cm romx Ta 65535 Ta \&No
+.Cm sram Ta 255 Ta \&No
+.Cm wramx Ta 7 Ta Yes
+.El
+.Pp
+A
+.Ar size
+of 0 disables scrambling for that region.
+.Pp
+For example,
+.Ql romx=64,wramx=4
+will scramble
+.Ic ROMX
+sections among ROM banks 1 to 64,
+.Ic WRAMX
+sections among RAM banks 1 to 4, and will not scramble
+.Ic SRAM
+sections.
+.Pp
+Later region specs override earlier ones; for example,
+.Ql romx=42, Romx=0
+disables scrambling for
+.Cm romx .
+.Pp
+.Cm wramx
+scrambling is silently ignored if
+.Fl w
+is passed (including if implied by
+.Fl d ) ,
+as
+.Ic WRAMX
+sections will be treated as
+.Ic WRAM0 .
+.Sh DIAGNOSTICS
+Warnings are diagnostic messages that indicate possibly erroneous behavior that does not necessarily compromise the linking process.
+The following options alter the way warnings are processed.
+.Bl -tag -width Ds
+.It Fl Werror
+Make all warnings into errors.
+This can be negated as
+.Fl Wno-error
+to prevent turning all warnings into errors.
+.It Fl Werror=
+Make the specified warning or meta warning into an error.
+A warning's name is appended
+.Pq example: Fl Werror=assert ,
+and this warning is implicitly enabled and turned into an error.
+This can be negated as
+.Fl Wno-error=
+to prevent turning a specified warning into an error, even if
+.Fl Werror
+is in effect.
+.El
+.Pp
+The following warnings are
+.Dq meta
+warnings, that enable a collection of other warnings.
+If a specific warning is toggled via a meta flag and a specific one, the more specific one takes priority.
+The position on the command-line acts as a tie breaker, the last one taking effect.
+.Bl -tag -width Ds
+.It Fl Wall
+This enables warnings that are likely to indicate an error or undesired behavior, and that can easily be fixed.
+.It Fl Weverything
+Enables literally every warning.
+.El
+.Pp
+The following warnings are actual warning flags; with each description, the corresponding warning flag is included.
+Note that each of these flag also has a negation (for example,
+.Fl Wobsolete
+enables the warning that
+.Fl Wno-obsolete
+disables; and
+.Fl Wall
+enables every warning that
+.Fl Wno-all
+disables).
+Only the non-default flag is listed here.
+Ignoring the
+.Dq no-
+prefix, entries are listed alphabetically.
+.Bl -tag -width Ds
+.It Fl Wno-assert
+Warn when
+.Ic WARN Ns No -type
+assertions fail. (See
+.Dq Aborting the assembly process
+in
+.Xr rgbasm 5
+for
+.Ic ASSERT ) .
+.It Fl Wdiv
+Warn when dividing the smallest negative integer (-2**31) by -1, which yields itself due to integer overflow.
+This warning is enabled by
+.Fl Wall .
+.It Fl Wno-obsolete
+Warn when obsolete features are encountered, which have been deprecated and may later be removed.
+.It Fl Wshift
+Warn when shifting right a negative value.
+Use a division by 2**N instead.
+This warning is enabled by
+.Fl Wall .
+.It Fl Wshift-amount
+Warn when a shift's operand is negative or greater than 32.
+This warning is enabled by
+.Fl Wall .
+.It Fl Wtruncation=
+Warn when an implicit truncation (for example,
+.Ic db
+to an 8-bit value) loses some bits.
+.Fl Wtruncation=0
+or
+.Fl Wno-truncation
+disables this warning.
+.Fl Wtruncation=1
+warns when an N-bit value is 2**N or greater, or less than -2**N.
+.Fl Wtruncation=2
+or just
+.Fl Wtruncation
+also warns when an N-bit value is less than -2**(N-1), which will not fit in two's complement encoding.
+.El
+.Sh EXAMPLES
+All you need for a basic ROM is an object file, which can be made into a ROM image like so:
+.Pp
+.Dl $ rgblink -o bar.gb foo.o
+.Pp
+The resulting
+.Ar bar.gb
+will not have correct checksums (unless you put them in the assembly source).
+You should use
+.Xr rgbfix 1
+to fix these so that the program will actually run in a Game Boy:
+.Pp
+.Dl $ rgbfix -v bar.gb
+.Pp
+Here is a more complete example:
+.Pp
+.Dl $ rgblink -o bin/game.gb -n bin/game.sym -p 0xFF obj/title.o obj/engine.o
+.Sh BUGS
+Please report bugs or mistakes in this documentation on
+.Lk https://github.com/gbdev/rgbds/issues GitHub .
+.Sh SEE ALSO
+.Xr rgbasm 1 ,
+.Xr rgblink 5 ,
+.Xr rgbfix 1 ,
+.Xr rgbgfx 1 ,
+.Xr gbz80 7 ,
+.Xr rgbds 5 ,
+.Xr rgbds 7
+.Sh HISTORY
+.Nm
+was originally written by
+.An Carsten S\(/orensen
+as part of the ASMotor package, and was later repackaged in RGBDS by
+.An Justin Lloyd .
+It is now maintained by a number of contributors at
+.Lk https://github.com/gbdev/rgbds .

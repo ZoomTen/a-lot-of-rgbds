@@ -1,0 +1,2 @@
+FATAL: `SECTION UNION` cannot contain fragment literals
+    at fragment-literal-in-union.asm(3)

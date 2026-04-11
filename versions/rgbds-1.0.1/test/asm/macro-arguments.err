@@ -1,0 +1,20 @@
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(21)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(23)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(24)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(24)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(25)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(26)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(27)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(27)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(27)
+warning: Empty macro argument [-Wempty-macro-arg]
+    at macro-arguments.asm(27)

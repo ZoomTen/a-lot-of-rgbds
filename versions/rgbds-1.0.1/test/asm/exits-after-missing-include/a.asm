@@ -1,0 +1,12 @@
+PUSHC
+PUSHO
+PUSHS
+SECTION "test", WRAM0
+UNION
+INCLUDE "does not exist"
+/*
+ENDU
+POPS
+POPO
+POPC
+*/

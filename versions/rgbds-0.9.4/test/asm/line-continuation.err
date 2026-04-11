@@ -1,0 +1,7 @@
+error: line-continuation.asm(3):
+    Invalid character after line continuation 's'
+warning: line-continuation.asm(6) -> line-continuation.asm::spam(4): [-Wuser]
+    spam
+error: line-continuation.asm(14):
+    Label "foo" created outside of a SECTION
+Assembly aborted with 2 errors!

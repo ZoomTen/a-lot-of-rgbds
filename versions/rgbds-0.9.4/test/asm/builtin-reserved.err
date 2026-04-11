@@ -1,0 +1,33 @@
+error: builtin-reserved.asm(3):
+    '_NARG' not defined
+error: builtin-reserved.asm(5):
+    '_NARG' is reserved for a built-in symbol
+error: builtin-reserved.asm(6):
+    '_NARG' is reserved for a built-in symbol
+error: builtin-reserved.asm(8):
+    '_NARG' is reserved for a built-in symbol
+error: builtin-reserved.asm(9):
+    '_NARG' is reserved for a built-in symbol
+error: builtin-reserved.asm(11):
+    '_NARG' is reserved for a built-in symbol
+error: builtin-reserved.asm(12):
+    '_NARG' is reserved for a built-in symbol
+error: builtin-reserved.asm(15):
+    '_NARG' is reserved for a built-in symbol
+error: builtin-reserved.asm(20):
+    '.' not defined
+error: builtin-reserved.asm(22):
+    '.' is reserved for a built-in symbol
+error: builtin-reserved.asm(23):
+    '.' is reserved for a built-in symbol
+error: builtin-reserved.asm(25):
+    '.' is reserved for a built-in symbol
+error: builtin-reserved.asm(26):
+    '.' is reserved for a built-in symbol
+error: builtin-reserved.asm(28):
+    '.' is reserved for a built-in symbol
+error: builtin-reserved.asm(29):
+    '.' is reserved for a built-in symbol
+error: builtin-reserved.asm(32):
+    "." has no value outside of a label scope
+Assembly aborted with 16 errors!

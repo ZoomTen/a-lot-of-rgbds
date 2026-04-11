@@ -1,0 +1,13 @@
+error: Invalid character '/' after line continuation
+    at line-continuation-block-comment.asm(6)
+error: syntax error, unexpected end of line
+    at line-continuation-block-comment.asm(6)
+error: syntax error, unexpected number
+    at line-continuation-block-comment.asm(7)
+error: Invalid character '/' after line continuation
+    at line-continuation-block-comment.asm(12)
+error: Invalid character '/' after line continuation
+    at line-continuation-block-comment.asm(14)
+error: Invalid character '/' after line continuation
+    at line-continuation-block-comment.asm(17)
+Assembly aborted with 6 errors!

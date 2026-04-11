@@ -1,0 +1,3 @@
+error: No memory region has been specified to place section "The section isn't even known" in
+    at script-typeless-bank.link(1)
+Linking failed with 1 error
